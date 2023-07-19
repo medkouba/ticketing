@@ -1,0 +1,64 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+  - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+  - image: medk23/auth
+    context: auth
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+      - src: 'src/**/*.ts'
+        dest: .
+
+  - image: medk23/ticketing-client
+    context: client
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+      - src: '**/*.js'
+        dest: .
+
+  - image: medk23/tickets
+    context: tickets
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+      - src: 'src/**/*.ts'
+        dest: .
+
+  - image: medk23/orders
+    context: orders
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+      - src: 'src/**/*.ts'
+        dest: .
+
+  - image: medk23/expiration
+    context: expiration
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+      - src: 'src/**/*.ts'
+        dest: .
+
+  - image: medk23/payments
+    context: payments
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+      - src: 'src/**/*.ts'
+        dest: .
+
+
